@@ -9,14 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- **Template usage documentation** - "Using This Template" section in README
-- **Rename instructions** - Step-by-step guide to rename project for your own use
-- **Tool creation guide** - How to add new tools to the template
+- **Version info in health_check** - `health_check` now returns `version` and `variant` fields
+  - `version`: Package version from `__version__` (e.g., "0.0.3" or "0.0.0-dev")
+  - `variant`: Deployment type ("dev" for local development, "installed" for PyPI/Docker)
+  - Helps identify which MCP server variant is running
 
 ### Changed
 
-- **README improvements** - Updated CLI examples, project structure, Docker instructions
-- **Fixed outdated references** - Removed Chainguard references, updated workflow names
+- **Health check response structure** - Added `version` and `variant` to response
+- **Test coverage** - Added tests for new health_check fields (17 tests passing)
+
+### Fixed
+
+- **Docker config cleanup** - Simplified compose, cleaned Zed settings
+- **Bandit false positive** - Disabled B608 for f-string instructions (not SQL)
 
 ## [0.0.2] - 2024-12-14
 
@@ -68,5 +74,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [Unreleased]: https://github.com/l4b4r4b4b4/fastmcp-template/compare/v0.0.3...HEAD
 [0.0.3]: https://github.com/l4b4r4b4b4/fastmcp-template/releases/tag/v0.0.3
-[0.0.2]: https://github.com/l4b4r4b4b4/fastmcp-template/releases/tag/v0.0.2
-[0.0.1]: https://github.com/l4b4r4b4b4/fastmcp-template/releases/tag/v0.0.1
+[0.0.3]: https://github.com/l4b4r4b4b4/portfolio-mcp/releases/tag/v0.0.3
+[0.0.2]: https://github.com/l4b4r4b4b4/portfolio-mcp/releases/tag/v0.0.2
+[0.0.1]: https://github.com/l4b4r4b4b4/portfolio-mcp/releases/tag/v0.0.1

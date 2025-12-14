@@ -1,6 +1,6 @@
 [project]
 name = "portfolio-mcp"
-version = "0.0.2"
+version = "0.0.3"
 description = "Portfolio analysis MCP server powered by mcp-refcache - Comprehensive portfolio metrics, optimization, and risk analysis"
 readme = "README.md"
 authors = [
