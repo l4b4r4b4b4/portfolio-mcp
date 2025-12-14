@@ -1,5 +1,5 @@
 {
-  description = "fastmcp-template - FastMCP server with mcp-refcache and Langfuse tracing";
+  description = "portfolio-mcp - Portfolio analysis MCP server powered by mcp-refcache";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -19,7 +19,7 @@
         };
 
         fhsEnv = pkgs.buildFHSEnv {
-          name = "fastmcp-template-dev-env";
+          name = "portfolio-mcp-dev-env";
 
           targetPkgs = pkgs':
             with pkgs'; [
@@ -50,20 +50,20 @@
             ];
 
           profile = ''
-            echo "🚀 fastmcp-template Development Environment"
-            echo "==========================================="
+            echo "📊 portfolio-mcp Development Environment"
+            echo "========================================="
 
             # Create and activate uv virtual environment if it doesn't exist
             if [ ! -d ".venv" ]; then
               echo "📦 Creating uv virtual environment..."
-              uv venv --python python3.12 --prompt "fastmcp-template"
+              uv venv --python python3.12 --prompt "portfolio-mcp"
             fi
 
             # Activate the virtual environment
             source .venv/bin/activate
 
             # Set a recognizable name for IDEs
-            export VIRTUAL_ENV_PROMPT="fastmcp-template"
+            export VIRTUAL_ENV_PROMPT="portfolio-mcp"
 
             # Sync dependencies
             if [ -f "pyproject.toml" ]; then
@@ -77,7 +77,7 @@
             echo "✅ Python: $(python --version)"
             echo "✅ uv:     $(uv --version)"
             echo "✅ Virtual environment: activated (.venv)"
-            echo "✅ PYTHONPATH: $PWD/src:$PWD"
+            echo "✅ PYTHONPATH: $PWD/app:$PWD"
           '';
 
           runScript = ''
@@ -85,11 +85,11 @@
             SHELL=${pkgs.zsh}/bin/zsh
 
             # Set PYTHONPATH to project root for module imports
-            export PYTHONPATH="$PWD/src:$PWD"
+            export PYTHONPATH="$PWD/app:$PWD"
             export SSL_CERT_FILE="/etc/ssl/certs/ca-bundle.crt"
 
             echo ""
-            echo "🚀 fastmcp-template Quick Reference:"
+            echo "📊 portfolio-mcp Quick Reference:"
             echo ""
             echo "🔧 Development:"
             echo "  uv sync                    - Sync dependencies"
@@ -104,11 +104,14 @@
             echo "  uv remove <package>        - Remove dependency"
             echo ""
             echo "🚀 Run Server:"
-            echo "  uv run fastmcp-template        - Run MCP server (stdio)"
-            echo "  uv run fastmcp-template --transport sse --port 8000"
+            echo "  uv run portfolio-mcp           - Run MCP server (stdio)"
+            echo "  uv run portfolio-mcp --transport sse --port 8000"
             echo ""
-            echo "🔗 mcp-refcache dependency:"
-            echo "  Installed from: git+https://github.com/l4b4r4b4b4/mcp-refcache"
+            echo "📊 Features:"
+            echo "  - Portfolio creation (Yahoo Finance, CoinGecko, Synthetic)"
+            echo "  - Analysis (returns, volatility, Sharpe, Sortino, VaR)"
+            echo "  - Optimization (Efficient Frontier, Monte Carlo)"
+            echo "  - Reference-based caching via mcp-refcache"
             echo ""
             echo "🚀 Ready to build!"
             echo ""
@@ -120,7 +123,7 @@
       in {
         devShells.default = pkgs.mkShell {
           shellHook = ''
-            exec ${fhsEnv}/bin/fastmcp-template-dev-env
+            exec ${fhsEnv}/bin/portfolio-mcp-dev-env
           '';
         };
 
