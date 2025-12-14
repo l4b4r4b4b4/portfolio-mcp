@@ -9,14 +9,8 @@
 #   PYTHON_VERSION: Python version for images (default: 3.12)
 
 services:
-  # Production server
+  # Production server (pulls from GHCR)
   portfolio-mcp:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-      target: production
-      args:
-        - PYTHON_VERSION=${PYTHON_VERSION:-3.12}
     image: ghcr.io/l4b4r4b4b4/portfolio-mcp:latest
     ports:
       - "8000:8000"
@@ -35,14 +29,3 @@ services:
       - ./app:/app/app:ro
     profiles:
       - dev
-
-  # Build the base image (for publishing)
-  base:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.base
-      args:
-        - PYTHON_VERSION=${PYTHON_VERSION:-3.12}
-    image: ghcr.io/l4b4r4b4b4/portfolio-mcp-base:latest
-    profiles:
-      - build
