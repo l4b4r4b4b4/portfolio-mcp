@@ -604,9 +604,9 @@ wheels = [
 ]
 
 [[package]]
-name = "finquant"
-version = "0.7.0"
-source = { git = "https://github.com/l4b4r4b4b4/FinQuant.git#e7e1ebe7664c69cd5b8829bbe920160a3cc3fe31" }
+name = "finquant-enhanced"
+version = "0.7.1"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "matplotlib" },
     { name = "numpy" },
@@ -615,6 +615,10 @@ dependencies = [
     { name = "scikit-learn" },
     { name = "scipy" },
     { name = "yfinance" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8a/6b/faeb14292f1ec5a87056583369d872fee3bcac37088493606fc9f467cc59/finquant_enhanced-0.7.1.tar.gz", hash = "sha256:cded6490f2d521ee9b7240711a0caf70faeb130b0ec5f5785bf8afdbc3456f49", size = 875116, upload-time = "2025-12-14T22:23:16.009Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/62/d7/b16844477a5ea059de3e9d8ad2d7752653c16eb79559cbdadfd503503a6f/finquant_enhanced-0.7.1-py3-none-any.whl", hash = "sha256:6d7ed6aeaf57401908725075de94b9238c4a52a030caaad541ffd33d81d85efa", size = 41768, upload-time = "2025-12-14T22:23:14.482Z" },
 ]
 
 [[package]]
@@ -1551,7 +1555,7 @@ version = "0.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },
-    { name = "finquant" },
+    { name = "finquant-enhanced" },
     { name = "mcp-refcache" },
     { name = "numpy" },
     { name = "pydantic" },
@@ -1573,7 +1577,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "fastmcp", specifier = ">=2.14.0" },
-    { name = "finquant", git = "https://github.com/l4b4r4b4b4/FinQuant.git" },
+    { name = "finquant-enhanced", specifier = ">=0.7.1" },
     { name = "mcp-refcache", specifier = ">=0.1.0" },
     { name = "numpy", specifier = ">=2.0.0" },
     { name = "pydantic", specifier = ">=2.10.0" },

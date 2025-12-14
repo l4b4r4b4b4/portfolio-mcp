@@ -48,6 +48,10 @@
     "portfolio-mcp-dev": {
       "command": "uv",
       "args": ["run", "portfolio-mcp", "stdio"]
+    },
+    "portfolio-mcp-pypi": {
+      "command": "uvx",
+      "args": ["portfolio-mcp", "stdio"]
     }
   }
 }
