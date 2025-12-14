@@ -73,6 +73,9 @@ RUN useradd --create-home --uid 1000 appuser
 
 WORKDIR /app
 
+# Copy uv from official image for CLI usage
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
 # Copy virtual environment from builder
 COPY --from=builder /opt/venv /opt/venv
 
