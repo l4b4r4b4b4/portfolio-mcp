@@ -51,7 +51,7 @@
     },
     "portfolio-mcp-pypi": {
       "command": "uvx",
-      "args": ["portfolio-mcp", "stdio"]
+      "args": ["--refresh", "portfolio-mcp@latest", "stdio"]
     }
   }
 }
