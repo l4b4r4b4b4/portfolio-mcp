@@ -1,20 +1,19 @@
 # syntax=docker/dockerfile:1.4
-# FastMCP Base Image
+# portfolio-mcp Base Image
 # ==============================================================================
-# A secure, minimal base image for FastMCP servers with mcp-refcache.
-# Other FastMCP servers can extend this image with their own app/ code.
+# A secure, minimal base image for portfolio-mcp with mcp-refcache.
 #
 # Build:
 #   docker build -f docker/Dockerfile.base \
 #     --build-arg PYTHON_VERSION=3.12 \
-#     -t fastmcp-base:latest .
+#     -t portfolio-mcp-base:latest .
 #
 # Publish to GHCR:
-#   docker tag fastmcp-base:latest ghcr.io/l4b4r4b4b4/fastmcp-base:latest
-#   docker push ghcr.io/l4b4r4b4b4/fastmcp-base:latest
+#   docker tag portfolio-mcp-base:latest ghcr.io/l4b4r4b4b4/portfolio-mcp-base:latest
+#   docker push ghcr.io/l4b4r4b4b4/portfolio-mcp-base:latest
 #
-# Usage in other projects:
-#   FROM ghcr.io/l4b4r4b4b4/fastmcp-base:latest
+# Usage:
+#   FROM ghcr.io/l4b4r4b4b4/portfolio-mcp-base:latest
 #   COPY app/ /app/app/
 #   CMD ["python", "-m", "app", "streamable-http"]
 # ==============================================================================
@@ -93,8 +92,8 @@ ENV PYTHONDONTWRITEBYTECODE=1
 EXPOSE 8000
 
 # Labels for container metadata
-LABEL org.opencontainers.image.source="https://github.com/l4b4r4b4b4/fastmcp-template"
-LABEL org.opencontainers.image.description="FastMCP Base Image with mcp-refcache"
+LABEL org.opencontainers.image.source="https://github.com/l4b4r4b4b4/portfolio-mcp"
+LABEL org.opencontainers.image.description="portfolio-mcp Base Image - Portfolio analysis MCP server"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.base.name="python:${PYTHON_VERSION}-slim"
 

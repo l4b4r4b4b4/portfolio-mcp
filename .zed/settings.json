@@ -45,14 +45,23 @@
       "command": "npx",
       "args": ["mcp-remote", "https://langfuse.com/api/mcp"]
     },
-    "fastmcp-template": {
-      "command": "uvx",
-      "args": ["fastmcp-template", "stdio"],
-      "env": {
-        "LANGFUSE_PUBLIC_KEY": "",
-        "LANGFUSE_SECRET_KEY": "",
-        "LANGFUSE_HOST": "https://cloud.langfuse.com"
-      }
+    "portfolio-mcp-dev": {
+      "command": "uv",
+      "args": ["run", "portfolio-mcp", "stdio"]
     }
   }
 }
+
+// After publishing, add these to context_servers:
+//
+// PyPI install (via uvx):
+// "portfolio-mcp": {
+//   "command": "uvx",
+//   "args": ["portfolio-mcp", "stdio"]
+// }
+//
+// Docker container:
+// "portfolio-mcp-docker": {
+//   "command": "docker",
+//   "args": ["run", "--rm", "-i", "ghcr.io/l4b4r4b4b4/portfolio-mcp:latest", "python", "-m", "app", "stdio"]
+// }

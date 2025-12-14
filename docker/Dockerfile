@@ -1,8 +1,8 @@
-# FastMCP Template - Production Dockerfile
-# Extends the base image with the template application
+# portfolio-mcp - Production Dockerfile
+# Extends the base image with the portfolio analysis application
 #
-# Build: docker build -f docker/Dockerfile -t fastmcp-template:latest .
-# Run:   docker run -p 8000:8000 fastmcp-template:latest
+# Build: docker build -f docker/Dockerfile -t portfolio-mcp:latest .
+# Run:   docker run -p 8000:8000 portfolio-mcp:latest
 #
 # The server uses streamable-http transport (recommended for remote/Docker).
 # Configure via environment variables:
@@ -13,7 +13,7 @@
 
 # Build argument for Python version (must match base image)
 ARG PYTHON_VERSION=3.12
-ARG BASE_IMAGE=ghcr.io/l4b4r4b4b4/fastmcp-base:latest
+ARG BASE_IMAGE=ghcr.io/l4b4r4b4b4/portfolio-mcp-base:latest
 
 # ==============================================================================
 # Production Runtime

@@ -1,4 +1,4 @@
-"""Configuration module for FastMCP Template Server.
+"""Configuration module for portfolio-mcp Server.
 
 Uses pydantic-settings for environment-based configuration with validation.
 
@@ -6,11 +6,8 @@ Environment Variables:
     CACHE_BACKEND: Cache backend type - memory, sqlite, redis (default: auto)
     REDIS_URL: Redis connection URL (default: redis://localhost:6379)
     SQLITE_PATH: SQLite database path (default: XDG data dir)
-    FASTMCP_PORT: Server port for HTTP modes (default: 8000)
-    FASTMCP_HOST: Server host for HTTP modes (default: 0.0.0.0)
-    LANGFUSE_PUBLIC_KEY: Langfuse public key (optional)
-    LANGFUSE_SECRET_KEY: Langfuse secret key (optional)
-    LANGFUSE_HOST: Langfuse host URL (default: https://cloud.langfuse.com)
+    PORTFOLIO_MCP_PORT: Server port for HTTP modes (default: 8000)
+    PORTFOLIO_MCP_HOST: Server host for HTTP modes (default: 0.0.0.0)
 """
 
 from __future__ import annotations
@@ -32,7 +29,7 @@ def _get_default_sqlite_path() -> str:
     else:
         base_dir = Path.home() / ".local" / "share"
 
-    return str(base_dir / "fastmcp-template" / "cache.db")
+    return str(base_dir / "portfolio-mcp" / "cache.db")
 
 
 class Settings(BaseSettings):
@@ -61,29 +58,29 @@ class Settings(BaseSettings):
     )
 
     # Server configuration (for HTTP modes)
-    fastmcp_port: int = Field(
+    portfolio_mcp_port: int = Field(
         default=8000,
         ge=1,
         le=65535,
         description="Server port for SSE and streamable-http modes.",
     )
-    fastmcp_host: str = Field(
+    portfolio_mcp_host: str = Field(
         default="0.0.0.0",  # nosec B104 - intentional for Docker/container deployments
         description="Server host for SSE and streamable-http modes.",
     )
 
-    # Langfuse configuration (optional)
-    langfuse_public_key: str | None = Field(
-        default=None,
-        description="Langfuse public key for tracing.",
+    # Portfolio-specific configuration
+    default_risk_free_rate: float = Field(
+        default=0.02,
+        ge=0.0,
+        le=1.0,
+        description="Default risk-free rate for portfolio calculations (e.g., 0.02 = 2%).",
     )
-    langfuse_secret_key: str | None = Field(
-        default=None,
-        description="Langfuse secret key for tracing.",
-    )
-    langfuse_host: str = Field(
-        default="https://cloud.langfuse.com",
-        description="Langfuse host URL.",
+    default_trading_days: int = Field(
+        default=252,
+        ge=1,
+        le=365,
+        description="Default number of trading days per year for annualization.",
     )
 
     @field_validator("sqlite_path")
@@ -91,11 +88,6 @@ class Settings(BaseSettings):
     def expand_sqlite_path(cls, value: str) -> str:
         """Expand ~ in SQLite path."""
         return str(Path(value).expanduser())
-
-    @property
-    def langfuse_enabled(self) -> bool:
-        """Check if Langfuse credentials are configured."""
-        return bool(self.langfuse_public_key and self.langfuse_secret_key)
 
     def get_cache_backend_for_transport(
         self,
