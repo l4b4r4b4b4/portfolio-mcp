@@ -20,13 +20,19 @@ ARG BASE_IMAGE=ghcr.io/l4b4r4b4b4/portfolio-mcp-base:latest
 # ==============================================================================
 FROM ${BASE_IMAGE} AS production
 
+# Switch to root to install package
+USER root
+
 # Copy project files needed for installation
-COPY --chown=appuser:appuser pyproject.toml uv.lock ./
+COPY --chown=appuser:appuser pyproject.toml uv.lock README.md ./
 COPY --chown=appuser:appuser app/ /app/app/
 
 # Install the package itself (not just dependencies)
 # This ensures __version__ is properly set from package metadata
-RUN /opt/venv/bin/uv pip install --no-deps .
+RUN uv pip install --no-deps .
+
+# Switch back to non-root user
+USER appuser
 
 # Default: Run MCP server with streamable-http transport (recommended for remote)
 CMD ["uv", "run", "portfolio-mcp", "streamable-http"]
@@ -36,12 +42,18 @@ CMD ["uv", "run", "portfolio-mcp", "streamable-http"]
 # ==============================================================================
 FROM ${BASE_IMAGE} AS development
 
+# Switch to root to install package
+USER root
+
 # Copy project files needed for installation
-COPY --chown=appuser:appuser pyproject.toml uv.lock ./
+COPY --chown=appuser:appuser pyproject.toml uv.lock README.md ./
 COPY --chown=appuser:appuser app/ /app/app/
 
 # Install the package itself in editable mode for development
-RUN /opt/venv/bin/uv pip install --no-deps -e .
+RUN uv pip install --no-deps -e .
+
+# Switch back to non-root user
+USER appuser
 
 # Dev mode - can override with volume mount
 CMD ["uv", "run", "portfolio-mcp", "streamable-http"]
