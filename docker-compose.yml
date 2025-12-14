@@ -1,4 +1,4 @@
-# Docker Compose for FastMCP Template
+# Docker Compose for portfolio-mcp
 #
 # Usage:
 #   docker compose up                    # Run production server
@@ -7,24 +7,19 @@
 #
 # Environment variables (optional):
 #   PYTHON_VERSION: Python version for images (default: 3.12)
-#   LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_HOST
 
 services:
   # Production server
-  fastmcp-template:
+  portfolio-mcp:
     build:
       context: .
       dockerfile: docker/Dockerfile
       target: production
       args:
         - PYTHON_VERSION=${PYTHON_VERSION:-3.12}
-    image: ghcr.io/l4b4r4b4b4/fastmcp-template:latest
+    image: ghcr.io/l4b4r4b4b4/portfolio-mcp:latest
     ports:
       - "8000:8000"
-    environment:
-      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY:-}
-      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY:-}
-      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://cloud.langfuse.com}
     restart: unless-stopped
 
   # Development server with hot reload
@@ -38,10 +33,6 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app/app:ro
-    environment:
-      - LANGFUSE_PUBLIC_KEY=${LANGFUSE_PUBLIC_KEY:-}
-      - LANGFUSE_SECRET_KEY=${LANGFUSE_SECRET_KEY:-}
-      - LANGFUSE_HOST=${LANGFUSE_HOST:-https://cloud.langfuse.com}
     profiles:
       - dev
 
@@ -52,6 +43,6 @@ services:
       dockerfile: docker/Dockerfile.base
       args:
         - PYTHON_VERSION=${PYTHON_VERSION:-3.12}
-    image: ghcr.io/l4b4r4b4b4/fastmcp-base:latest
+    image: ghcr.io/l4b4r4b4b4/portfolio-mcp-base:latest
     profiles:
       - build

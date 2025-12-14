@@ -1,58 +1,40 @@
-"""CLI entry point for FastMCP Template Server.
+"""CLI entry point for portfolio-mcp Server.
 
 Usage:
-    uvx fastmcp-template stdio           # Local CLI mode (Claude Desktop)
-    uvx fastmcp-template sse             # SSE server mode (deprecated)
-    uvx fastmcp-template streamable-http # Streamable HTTP (recommended for remote)
+    uvx portfolio-mcp stdio           # Local CLI mode (Claude Desktop)
+    uvx portfolio-mcp sse             # SSE server mode (deprecated)
+    uvx portfolio-mcp streamable-http # Streamable HTTP (recommended for remote)
 
 Environment Variables:
-    FASTMCP_PORT: Server port for HTTP modes (default: 8000)
-    FASTMCP_HOST: Server host for HTTP modes (default: 0.0.0.0)
+    PORTFOLIO_MCP_PORT: Server port for HTTP modes (default: 8000)
+    PORTFOLIO_MCP_HOST: Server host for HTTP modes (default: 0.0.0.0)
     CACHE_BACKEND: Cache backend - memory, sqlite, redis (default: auto)
     REDIS_URL: Redis connection URL (default: redis://localhost:6379)
-    LANGFUSE_PUBLIC_KEY: Langfuse public key (optional)
-    LANGFUSE_SECRET_KEY: Langfuse secret key (optional)
 """
 
-import os
 import sys
 
 import typer
 
+from app.config import settings
+
 app = typer.Typer(
-    name="fastmcp-template",
-    help="FastMCP Template Server with RefCache and Langfuse Tracing",
+    name="portfolio-mcp",
+    help="Portfolio Analysis MCP Server powered by mcp-refcache",
     add_completion=False,
 )
 
 
-def _get_host() -> str:
-    """Get server host from environment."""
-    return os.environ.get("FASTMCP_HOST", "0.0.0.0")  # nosec B104 - intentional for Docker
-
-
-def _get_port() -> int:
-    """Get server port from environment."""
-    return int(os.environ.get("FASTMCP_PORT", "8000"))
-
-
 def _print_startup_info(transport: str) -> None:
     """Print startup information."""
-    from .tracing import is_langfuse_enabled
-
-    typer.echo(f"Transport: {transport}")
-    typer.echo(
-        f"Langfuse tracing: {'enabled' if is_langfuse_enabled() else 'disabled'}"
-    )
-    typer.echo("Context propagation: enabled (user_id, session_id, metadata)")
+    typer.echo("📊 portfolio-mcp")
+    typer.echo(f"   Transport: {transport}")
+    typer.echo(f"   Cache backend: {settings.cache_backend}")
 
 
 def _handle_shutdown() -> None:
     """Handle graceful shutdown."""
-    from .tracing import flush_traces
-
     typer.echo("\nShutting down server...")
-    flush_traces()
     typer.echo("Service stopped.")
 
 
@@ -96,13 +78,13 @@ def sse(
     """
     from .server import mcp
 
-    server_host = host or _get_host()
-    server_port = port or _get_port()
+    server_host = host or settings.portfolio_mcp_host
+    server_port = port or settings.portfolio_mcp_port
 
     _print_startup_info("sse")
-    typer.echo(f"Server: http://{server_host}:{server_port}/sse")
+    typer.echo(f"   Server: http://{server_host}:{server_port}/sse")
     typer.secho(
-        "Warning: SSE transport is deprecated. Use streamable-http instead.",
+        "   Warning: SSE transport is deprecated. Use streamable-http instead.",
         fg=typer.colors.YELLOW,
     )
 
@@ -134,11 +116,11 @@ def streamable_http(
     """
     from .server import mcp
 
-    server_host = host or _get_host()
-    server_port = port or _get_port()
+    server_host = host or settings.portfolio_mcp_host
+    server_port = port or settings.portfolio_mcp_port
 
     _print_startup_info("streamable-http")
-    typer.echo(f"Server: http://{server_host}:{server_port}/mcp")
+    typer.echo(f"   Server: http://{server_host}:{server_port}/mcp")
 
     try:
         mcp.run(transport="streamable-http", host=server_host, port=server_port)
@@ -161,15 +143,21 @@ def main(
         False, "--version", "-v", help="Show version and exit"
     ),
 ) -> None:
-    """FastMCP Template Server with RefCache and Langfuse Tracing.
+    """Portfolio Analysis MCP Server powered by mcp-refcache.
 
-    A production-ready MCP server template demonstrating best practices
-    for building Model Context Protocol servers with caching and observability.
+    Provides comprehensive portfolio management, analysis, and optimization
+    tools for AI assistants via the Model Context Protocol.
+
+    Features:
+    - Portfolio creation from Yahoo Finance, CoinGecko, or synthetic data
+    - Analysis: returns, volatility, Sharpe ratio, Sortino, VaR, drawdowns
+    - Optimization: Efficient Frontier, Monte Carlo simulation
+    - Reference-based caching for large datasets
     """
     if version:
         from . import __version__
 
-        typer.echo(f"fastmcp-template {__version__}")
+        typer.echo(f"portfolio-mcp {__version__}")
         raise typer.Exit()
 
     # If no command provided, show help

@@ -1,4 +1,4 @@
-# Release Pipeline for FastMCP Template
+# Release Pipeline for portfolio-mcp
 #
 # Permissions Note:
 # workflow_run triggered workflows need explicit permissions for security-events
@@ -58,8 +58,8 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  BASE_IMAGE_NAME: ${{ github.repository_owner }}/fastmcp-base
-  APP_IMAGE_NAME: ${{ github.repository_owner }}/fastmcp-template
+  BASE_IMAGE_NAME: ${{ github.repository_owner }}/portfolio-mcp-base
+  APP_IMAGE_NAME: ${{ github.repository_owner }}/portfolio-mcp
 
 jobs:
   # Gate: Only proceed if CI passed (or tag push / manual trigger)

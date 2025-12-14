@@ -1,4 +1,4 @@
-# CD Pipeline for FastMCP Template
+# CD Pipeline for portfolio-mcp
 #
 # Deployment workflow placeholder - customize for your infrastructure.
 #
@@ -67,7 +67,7 @@ concurrency:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/fastmcp-template
+  IMAGE_NAME: ${{ github.repository_owner }}/portfolio-mcp
 
 jobs:
   # Gate: Only proceed if Release workflow passed
