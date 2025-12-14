@@ -72,11 +72,43 @@ class TestHealthCheck:
         assert isinstance(result["portfolios_stored"], int)
         assert result["portfolios_stored"] >= 0
 
+    def test_health_check_returns_version(self) -> None:
+        """Test that health check returns version."""
+        result = self._call_health_check()
+
+        assert "version" in result
+        assert isinstance(result["version"], str)
+        # Version should be semantic version or dev
+        assert result["version"] == "0.0.0-dev" or result["version"].count(".") >= 2
+
+    def test_health_check_returns_variant(self) -> None:
+        """Test that health check returns variant."""
+        result = self._call_health_check()
+
+        assert "variant" in result
+        assert result["variant"] in {"dev", "installed"}
+
+    def test_health_check_variant_matches_version(self) -> None:
+        """Test that variant is dev when version is 0.0.0-dev."""
+        result = self._call_health_check()
+
+        if result["version"] == "0.0.0-dev":
+            assert result["variant"] == "dev"
+        else:
+            assert result["variant"] == "installed"
+
     def test_health_check_structure(self) -> None:
         """Test complete health check response structure."""
         result = self._call_health_check()
 
-        expected_keys = {"status", "server", "cache", "portfolios_stored"}
+        expected_keys = {
+            "status",
+            "server",
+            "version",
+            "variant",
+            "cache",
+            "portfolios_stored",
+        }
         assert set(result.keys()) == expected_keys
 
 

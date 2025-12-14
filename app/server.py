@@ -28,6 +28,7 @@ from fastmcp import FastMCP
 from mcp_refcache import CacheResponse, PreviewConfig, PreviewStrategy, RefCache
 from mcp_refcache.fastmcp import cache_instructions
 
+from app import __version__
 from app.storage import PortfolioStore
 from app.tools.analysis import register_analysis_tools
 from app.tools.data import register_data_tools
@@ -40,6 +41,7 @@ from app.tools.portfolio import register_portfolio_tools
 
 mcp = FastMCP(
     name="portfolio-mcp",
+    # nosec B608 - This is not SQL, just a long documentation string
     instructions=f"""A financial portfolio management server with reference-based caching.
 
 Supports real market data from Yahoo Finance (stocks, ETFs) and CoinGecko (crypto).
@@ -239,9 +241,16 @@ def health_check() -> dict[str, Any]:
         Health status information.
     """
     portfolios = store.list_portfolios()
+
+    # Detect variant: dev uses 0.0.0-dev, pypi has real version
+    # (Docker uses installed package so shows real version too)
+    variant = "dev" if __version__ == "0.0.0-dev" else "installed"
+
     return {
         "status": "healthy",
         "server": "portfolio-mcp",
+        "version": __version__,
+        "variant": variant,
         "cache": cache.name,
         "portfolios_stored": len(portfolios),
     }
