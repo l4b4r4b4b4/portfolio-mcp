@@ -54,17 +54,8 @@
       "args": ["--refresh", "portfolio-mcp@latest", "stdio"]
     },
     "portfolio-mcp-docker": {
-      "command": "docker",
-      "args": [
-        "run",
-        "--rm",
-        "-i",
-        "ghcr.io/l4b4r4b4b4/portfolio-mcp:latest",
-        "python",
-        "-m",
-        "app",
-        "stdio"
-      ]
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:8000/mcp"]
     }
   }
 }

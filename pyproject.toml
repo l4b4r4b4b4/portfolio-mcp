@@ -102,3 +102,4 @@ ignore_missing_imports = true
 
 [tool.bandit]
 exclude_dirs = ["tests", ".venv", "archive"]
+skips = ["B608"]  # False positive: f-string instructions not SQL
