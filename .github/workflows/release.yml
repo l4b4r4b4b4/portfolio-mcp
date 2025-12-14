@@ -5,17 +5,15 @@
 # to upload SARIF files to GitHub's Security tab.
 #
 # Workflow Design:
-# - Triggers AFTER CI workflow passes on main branch
-# - Triggers on semantic version tags (v*.*.*)
+# - Triggers on semantic version tags (v*.*.*) for versioned releases
+# - Does NOT trigger on main branch merges (avoids duplicate builds)
 # - Builds and publishes Docker images to GHCR
 # - Runs security scans on built images
 #
 # Image Tagging Strategy:
-# - On merge to main: `latest`, `sha-abc1234`
 # - On version tag (v0.0.1): `latest`, `v0.0.1`, `0.0.1`, `0.0`
 #
-# Future (dev builds on PR):
-# - `dev-latest`, `dev-v0.0.1`, `dev-sha-abc1234`
+# Note: If you want `latest` builds on every main merge, uncomment workflow_run trigger
 #
 # Runner Support:
 # - Uses GitHub-hosted runners by default
@@ -23,20 +21,14 @@
 
 name: Release
 
-# Workflow-level permissions (required for workflow_run trigger)
+# Workflow-level permissions
 permissions:
   contents: read
   packages: write
   security-events: write
 
 on:
-  # Trigger after CI workflow completes on main
-  workflow_run:
-    workflows: ["CI"]
-    types: [completed]
-    branches: [main]
-
-  # Trigger on semantic version tags
+  # Trigger on semantic version tags ONLY
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
