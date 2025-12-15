@@ -103,6 +103,29 @@ Once connected, you can use natural language to:
 "Compare my portfolios by Sharpe ratio"
 ```
 
+### Quick Showcase Demo
+
+Try this 5-step demo to see portfolio-mcp in action:
+
+```
+1. Create a tech portfolio with AAPL, GOOG, MSFT using 1 year of Yahoo Finance data
+   (Expected: ~27% return, ~24% volatility, Sharpe ratio ~1.05)
+
+2. Optimize the tech_stocks portfolio for maximum Sharpe ratio
+   (Watch optimal weights improve risk-adjusted returns)
+
+3. Show me the efficient frontier with 30 points for tech_stocks
+   (Visualize all optimal portfolios and identify the sweet spot)
+
+4. Get comprehensive metrics for tech_stocks including VaR and Sortino
+   (Understand downside risk and tail risk metrics)
+
+5. Create a crypto portfolio with BTC, ETH, SOL and compare it with tech_stocks
+   (See how different asset classes perform on risk/return metrics)
+```
+
+This demonstrates portfolio creation, optimization, risk analysis, and comparison—all through natural language!
+
 ## Available Tools
 
 ### Portfolio Management (6 tools)
