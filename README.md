@@ -105,26 +105,26 @@ Once connected, you can use natural language to:
 
 ### Quick Showcase Demo
 
-Try this 5-step demo to see portfolio-mcp in action:
-
 ```
-1. Create a tech portfolio with AAPL, GOOG, MSFT using 1 year of Yahoo Finance data
-   (Expected: ~27% return, ~24% volatility, Sharpe ratio ~1.05)
+Try this 5-step demo to see portfolio-mcp in action. **Explain what you're doing BEFORE each tool call, then explain the results AFTER**:
 
-2. Optimize the tech_stocks portfolio for maximum Sharpe ratio
-   (Watch optimal weights improve risk-adjusted returns)
+1. "Let's create a tech portfolio with AAPL, GOOG, MSFT using 1 year of Yahoo Finance data"
+   → After: "Great! 27% return, 24% volatility, Sharpe 1.05 - solid performance!"
 
-3. Show me the efficient frontier with 30 points for tech_stocks
-   (Visualize all optimal portfolios and identify the sweet spot)
+2. "Now optimize the tech_stocks portfolio for maximum Sharpe ratio"
+   → After: "Improved Sharpe from 1.05 to [X] by adjusting weights - better risk-adjusted returns!"
 
-4. Get comprehensive metrics for tech_stocks including VaR and Sortino
-   (Understand downside risk and tail risk metrics)
+3. "Show me the efficient frontier with 30 points for tech_stocks"
+   → After: "Here's every optimal portfolio - notice the sweet spot at max Sharpe!"
 
-5. Create a crypto portfolio with BTC, ETH, SOL and compare it with tech_stocks
-   (See how different asset classes perform on risk/return metrics)
+4. "Get comprehensive metrics for tech_stocks including VaR and Sortino"
+   → After: "VaR shows [X]% worst-case loss, Sortino focuses on downside risk"
+
+5. "Create a crypto portfolio with BTC, ETH, SOL and compare it with tech_stocks"
+   → After: "Crypto: higher returns but 2x the volatility - tech wins on Sharpe ratio!"
 ```
 
-This demonstrates portfolio creation, optimization, risk analysis, and comparison—all through natural language!
+**Pro tip**: Explaining before and after each step makes the showcase engaging and helps viewers understand the practical insights from each tool!
 
 ## Available Tools
 
