@@ -5,6 +5,9 @@ A portfolio analysis MCP server powered by [mcp-refcache](https://github.com/l4b
 [![Tests](https://github.com/l4b4r4b4b4/portfolio-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/l4b4r4b4b4/portfolio-mcp/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/badge/coverage-81%25-green)](https://github.com/l4b4r4b4b4/portfolio-mcp)
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![PyPI](https://img.shields.io/pypi/v/portfolio-mcp)](https://pypi.org/project/portfolio-mcp/)
+[![Docker](https://img.shields.io/badge/docker-ghcr.io-blue)](https://github.com/l4b4r4b4b4/portfolio-mcp/pkgs/container/portfolio-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
 
@@ -16,39 +19,73 @@ A portfolio analysis MCP server powered by [mcp-refcache](https://github.com/l4b
 
 ## Installation
 
-### Using uv (recommended)
+### Option 1: PyPI (Recommended)
+
+```bash
+# Install and run with uvx (no installation needed)
+uvx portfolio-mcp stdio
+
+# Or install globally with pip
+pip install portfolio-mcp
+portfolio-mcp stdio
+```
+
+### Option 2: Docker
+
+```bash
+# Pull and run the latest image
+docker pull ghcr.io/l4b4r4b4b4/portfolio-mcp:latest
+
+# Run with docker-compose
+docker compose up -d
+
+# Or run directly
+docker run -p 8000:8000 ghcr.io/l4b4r4b4b4/portfolio-mcp:latest
+```
+
+### Option 3: From Source
 
 ```bash
 # Clone the repository
 git clone https://github.com/l4b4r4b4b4/portfolio-mcp
 cd portfolio-mcp
 
-# Install dependencies
+# Install dependencies with uv
 uv sync
 
 # Run the server
 uv run portfolio-mcp stdio
 ```
 
-### Using pip
-
-```bash
-pip install portfolio-mcp
-portfolio-mcp stdio
-```
-
 ## Quick Start
 
 ### Connect to Claude Desktop
 
-Add to your Claude Desktop configuration (`~/.config/claude/claude_desktop_config.json`):
+Add to your Claude Desktop configuration:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+**Linux**: `~/.config/claude/claude_desktop_config.json`
 
 ```json
 {
   "mcpServers": {
     "portfolio-mcp": {
-      "command": "uv",
-      "args": ["run", "--directory", "/path/to/portfolio-mcp", "portfolio-mcp", "stdio"]
+      "command": "uvx",
+      "args": ["portfolio-mcp", "stdio"]
+    }
+  }
+}
+```
+
+Or use Docker:
+
+```json
+{
+  "mcpServers": {
+    "portfolio-mcp": {
+      "command": "npx",
+      "args": ["mcp-remote", "http://localhost:8000/mcp"]
     }
   }
 }
@@ -65,6 +102,29 @@ Once connected, you can use natural language to:
 "Show me the efficient frontier with 20 points"
 "Compare my portfolios by Sharpe ratio"
 ```
+
+### Quick Showcase Demo
+
+```
+Try this 5-step demo to see portfolio-mcp in action. **Explain what you're doing BEFORE each tool call, then explain the results AFTER**:
+
+1. "Let's create a tech portfolio with AAPL, GOOG, MSFT using 1 year of Yahoo Finance data"
+   → After: "Great! 27% return, 24% volatility, Sharpe 1.05 - solid performance!"
+
+2. "Now optimize the tech_stocks portfolio for maximum Sharpe ratio"
+   → After: "Improved Sharpe from 1.05 to [X] by adjusting weights - better risk-adjusted returns!"
+
+3. "Show me the efficient frontier with 30 points for tech_stocks"
+   → After: "Here's every optimal portfolio - notice the sweet spot at max Sharpe!"
+
+4. "Get comprehensive metrics for tech_stocks including VaR and Sortino"
+   → After: "VaR shows [X]% worst-case loss, Sortino focuses on downside risk"
+
+5. "Create a crypto portfolio with BTC, ETH, SOL and compare it with tech_stocks"
+   → After: "Crypto: higher returns but 2x the volatility - tech wins on Sharpe ratio!"
+```
+
+**Pro tip**: Explaining before and after each step makes the showcase engaging and helps viewers understand the practical insights from each tool!
 
 ## Available Tools
 
